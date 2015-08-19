@@ -22,6 +22,8 @@ var cart = React.createClass({
 
 	render: function(){
 		var self = this, products = this.props.products;
+		var productCount = Object.keys(this.props.products).length;
+		var cartCount = 0;
 		return (
 
 			<div className={"flux-cart " + (this.props.visible ? 'active' : '')}>
@@ -29,6 +31,9 @@ var cart = React.createClass({
 		          <button type="button" className="close-cart" onClick={this.closeCart}>×</button>
 		          <ul>
 		            {Object.keys(products).map(function(product){
+
+		            	cartCount += products[product].quantity;
+
 		              return (
 		                <li key={product}>
 		                  <h1 className="name">{products[product].name}</h1>
@@ -41,7 +46,7 @@ var cart = React.createClass({
 		          </ul>
 		          <span className="total">Total: ${this.props.total}</span>
 		        </div>
-		        <button type="button" className="view-cart" onClick={this.openCart} disabled={Object.keys(this.props.products).length > 0 ? "" : "disabled"}>View Cart ({this.props.count})</button>
+		        <button type="button" className="view-cart" onClick={this.openCart} disabled={productCount > 0 ? "" : "disabled"}>View Cart ({cartCount})</button>
 	      	</div>
 
 		);
