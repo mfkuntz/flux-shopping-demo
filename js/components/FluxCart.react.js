@@ -4,19 +4,19 @@ var cartActions = require('../actions/fluxCartActions');
 var cart = React.createClass({
 
 	closeCart: function(){
-		cartActions.updateCartVisible(false);
+		this.props.dispatch(cartActions.updateCartVisible(false));
 	},
 
 	openCart: function(){
-		cartActions.updateCartVisible(true);
+		this.props.dispatch(cartActions.updateCartVisible(true));
 	},
 
 	removeFromCart: function(sku){
-		cartActions.removeFromCart(sku);
+		this.props.dispatch(cartActions.removeFromCart(sku));
 
 		var items = this.props.products;
 		if (Object.keys(items).length === 0){
-			cartActions.updateCartVisible(false);
+			this.props.dispatch(cartActions.updateCartVisible(false));
 		}
 	},
 

@@ -23,9 +23,10 @@ var cartReducer = function(state = {}, action) {
     // Respond to CART_ADD action
     case FluxCartConstants.CART_ADD:
       //action.sku, action.update
+      var products = addProductToCart(action.sku, action.update, state);
       return {
         ...state,
-        addProductToCart(action.sku, action.update, state)
+        products
       }
 
     // Respond to CART_VISIBLE action

@@ -1,6 +1,9 @@
 window.React = require('react');
+import { Provider } from 'react-redux';
 var productData = require('./MockProductData');
 var cartApi = require('./utils/CartAPI');
+
+
 var FluxCartApp = require('./components/FluxCartApp.react');
 
 
@@ -8,11 +11,15 @@ var FluxCartApp = require('./components/FluxCartApp.react');
 productData.init();
 
 //mock API Call
-cartApi.getProductData();
+var data = cartApi.getProductData();
 
-var store = requrie('./stores/createStore');
+//setup store
+var store = require('./stores/createStore')(data);
+
 //render
 React.render(
-	<FluxCartApp store={store} />,
+	<Provider store={store}>
+		{() => <FluxCartApp />}
+	</Provider>,
 	document.getElementById('flux-cart')
 );

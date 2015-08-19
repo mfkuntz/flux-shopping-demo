@@ -5,42 +5,42 @@ var actions = {
 
 	//initial product data
 	recieveProduct: function(data){
-		dispatcher.handleAction({
+		return {
 			actionType: constants.RECEIVE_DATA,
 			data: data
-		});
+		};
 	},
 	// Set currently selected product variation
 	selectProduct: function(index) {
-		dispatcher.handleAction({
+		return {
 			actionType: constants.SELECT_PRODUCT,
 			data: index
-		});
+		};
 	},
 
 	// Add item to cart
 	addToCart: function(sku, update) {
-		dispatcher.handleAction({
-			actionType: constants.CART_ADD,
+		return {
+			type: constants.CART_ADD,
 			sku: sku,
 			update: update
-		});
+		};
 	},
 
 	// Remove item from cart
 	removeFromCart: function(sku) {
-		dispatcher.handleAction({
+		return {
 			actionType: constants.CART_REMOVE,
 			sku: sku
-		})
+		};
 	},
 
 	// Update cart visibility status
 	updateCartVisible: function(cartVisible) {
-		dispatcher.handleAction({
+		return {
 			actionType: constants.CART_VISIBLE,
 			cartVisible: cartVisible
-		});
+		};
 	}
 
 };

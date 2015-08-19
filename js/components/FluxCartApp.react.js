@@ -1,7 +1,6 @@
 var React = require('react');
 import { connect } from 'react-redux'
 
-
 var FluxProduct = require('./FluxProduct.react');
 var FluxCart = require('./FluxCart.react');
 
@@ -17,10 +16,10 @@ function mapStateToProps(state) {
 	}
 };
 
-var fluxCartApp = React.createClass({
+class fluxCartApp extends React.Component{
 
   	//render children
-  	render: function(){
+  	render (){
 
   		var { cartItems, count, cartTotal, cartVisible, selectedProduct, product } = this.props;
 
@@ -33,6 +32,6 @@ var fluxCartApp = React.createClass({
 		);
   	}
 
-});
+};
 
 module.exports = connect(mapStateToProps)(fluxCartApp);
