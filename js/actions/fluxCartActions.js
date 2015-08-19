@@ -1,4 +1,4 @@
-var dispatcher = require('../dispatcher/AppDispatcher');
+// var dispatcher = require('../dispatcher/AppDispatcher');
 var constants = require('../constants/FluxCartConstants');
 
 var actions = {

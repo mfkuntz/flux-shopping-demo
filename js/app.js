@@ -10,8 +10,9 @@ productData.init();
 //mock API Call
 cartApi.getProductData();
 
+var store = requrie('./stores/createStore');
 //render
 React.render(
-	<FluxCartApp />,
+	<FluxCartApp store={store} />,
 	document.getElementById('flux-cart')
 );
