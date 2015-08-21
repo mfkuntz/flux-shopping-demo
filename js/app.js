@@ -11,7 +11,8 @@ var FluxCartApp = require('./components/FluxCartApp.react');
 productData.init();
 
 //mock API Call
-var data = cartApi.getProductData();
+var products = cartApi.getProductData();
+var data = require('./utils/dataInit')(products);
 
 //setup store
 var store = require('./stores/createStore')(data);

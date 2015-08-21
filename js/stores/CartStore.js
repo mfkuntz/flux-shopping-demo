@@ -18,6 +18,9 @@ function removeItem(sku, state) {
 // Register callback with AppDispatcher
 var cartReducer = function(state = {}, action) {
 
+  console.log(action);
+  console.log(state);
+
   switch(action.type) {
 
     // Respond to CART_ADD action

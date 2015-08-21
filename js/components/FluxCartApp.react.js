@@ -6,13 +6,15 @@ var FluxCart = require('./FluxCart.react');
 
 
 function mapStateToProps(state) {
+	var product = state.get('products').get(0);
+	var cart = state.get('cart');
 	return {
-		cartItems: state.cartItems,
-		count: state.count,
-		cartTotal: state.cartTotal,
-		cartVisible: state.cartVisible,
-		selectedProduct: state.selectedProduct,
-		product: state.product
+		cartItems: cart.items,
+		count: cart.count,
+		cartTotal: cart.total,
+		cartVisible: cart.visible,
+		selectedProduct: state.get('currentSku'),
+		product: product
 	}
 };
 
