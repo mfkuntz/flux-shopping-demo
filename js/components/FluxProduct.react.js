@@ -16,13 +16,10 @@ var product = React.createClass({
 	},
 
 	selectVariant:function(event){
-		cartActions.selectProduct(event.target.value);
+		this.props.dispatch(cartActions.selectProduct(event.target.value));
 	},
 
 	render: function(){
-		var stock = (this.props.selected.sku in this.props.cartitems)? 
-			this.props.selected.inventory - this.props.cartitems[this.props.selected.sku].quantity : 
-			this.props.selected.inventory;
 
 		return (
 
@@ -41,8 +38,8 @@ var product = React.createClass({
 							})
 						}
 					</select>
-					<button type="button" onClick={this.addToCart} disabled={stock > 0 ? '' : 'disabled'}>
-						{stock > 0 ? 'Add To Cart' : 'Sold Out'}
+					<button type="button" onClick={this.addToCart} disabled={this.props.selected.inventory > 0 ? '' : 'disabled'}>
+						{this.props.selected.inventory > 0 ? 'Add To Cart' : 'Sold Out'}
 					</button>
 				</div>
 			</div>

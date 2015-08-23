@@ -13,7 +13,7 @@ function mapStateToProps(state) {
 		count: cart.count,
 		cartTotal: cart.total,
 		cartVisible: cart.visible,
-		selectedProduct: state.get('currentSku'),
+		selectedVariant: state.get('selectedVariant'),
 		product: product
 	}
 };
@@ -23,12 +23,12 @@ class fluxCartApp extends React.Component{
   	//render children
   	render (){
 
-  		var { cartItems, count, cartTotal, cartVisible, selectedProduct, product } = this.props;
+  		var { cartItems, count, cartTotal, cartVisible, selectedVariant, product, dispatch } = this.props;
 
   		return (
   			<div className="flux-cart-app">
-  				<FluxCart products={cartItems} count={count} total={cartTotal} visible={cartVisible}/>
-  				<FluxProduct product={product} selected={selectedProduct}/>
+  				<FluxCart products={cartItems} count={count} total={cartTotal} visible={cartVisible} dispatch={dispatch} />
+  				<FluxProduct product={product} selected={selectedVariant} dispatch={dispatch} />
 			</div>
 
 		);

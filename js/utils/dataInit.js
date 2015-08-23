@@ -10,6 +10,6 @@ module.exports = function(products){
 			visible: false,
 		},
 		currentProduct: {},
-		currentSku: ''
+		selectedVariant: products.get(0).variants[0]
 	});
 }
