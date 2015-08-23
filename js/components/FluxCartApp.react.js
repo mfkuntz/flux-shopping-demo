@@ -28,7 +28,7 @@ class fluxCartApp extends React.Component{
   		return (
   			<div className="flux-cart-app">
   				<FluxCart products={cartItems} count={count} total={cartTotal} visible={cartVisible}/>
-  				<FluxProduct product={product} cartitems={cartItems} selected={selectedProduct}/>
+  				<FluxProduct product={product} selected={selectedProduct}/>
 			</div>
 
 		);
