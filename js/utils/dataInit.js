@@ -9,7 +9,7 @@ module.exports = function(products){
 			total: 0,
 			visible: false,
 		},
-		currentProduct: {},
+		currentProduct: products.get(0),
 		selectedVariant: products.get(0).variants[0]
 	});
 }
