@@ -29,4 +29,7 @@ var productReducer = function(state = {}, action){
 	
 };
 
-module.exports = productReducer;
+module.exports = {
+	reducer: productReducer,
+	actions: [fluxCartConstants.RECEIVE_DATA, fluxCartConstants.SELECT_PRODUCT] 
+};

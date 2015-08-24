@@ -6,14 +6,14 @@ var actions = {
 	//initial product data
 	recieveProduct: function(data){
 		return {
-			actionType: constants.RECEIVE_DATA,
+			type: constants.RECEIVE_DATA,
 			data: data
 		};
 	},
 	// Set currently selected product variation
 	selectProduct: function(index) {
 		return {
-			actionType: constants.SELECT_PRODUCT,
+			type: constants.SELECT_PRODUCT,
 			data: index
 		};
 	},
@@ -30,7 +30,7 @@ var actions = {
 	// Remove item from cart
 	removeFromCart: function(sku) {
 		return {
-			actionType: constants.CART_REMOVE,
+			type: constants.CART_REMOVE,
 			sku: sku
 		};
 	},
@@ -38,7 +38,7 @@ var actions = {
 	// Update cart visibility status
 	updateCartVisible: function(cartVisible) {
 		return {
-			actionType: constants.CART_VISIBLE,
+			type: constants.CART_VISIBLE,
 			cartVisible: cartVisible
 		};
 	}

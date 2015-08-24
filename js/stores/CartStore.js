@@ -49,4 +49,7 @@ var cartReducer = function(state = {}, action) {
 
 };
 
-module.exports = cartReducer;
+module.exports = {
+  reducer: cartReducer,
+  actions: [FluxCartConstants.CART_ADD, FluxCartConstants.CART_VISIBLE, FluxCartConstants.CART_REMOVE]
+}
