@@ -1,7 +1,9 @@
-import { createStore } from 'redux'
+import { compose, createStore } from 'redux'
 var Immutable = require('immutable');
 import cartReducer from './CartStore'
 import productReducer from './ProductStore'
+
+import { devTools, persistState } from 'redux-devtools';
 
 
 // let combineImmutableReducers = reducers => {
@@ -35,7 +37,13 @@ function combineReducers(reducers){
 export default function(data){
 	var reducer = combineReducers([cartReducer, productReducer]);
 
-	var store = createStore(reducer, data);
+	const composer = compose(
+		devTools(),
+		persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/)),
+		createStore
+	);
+
+	var store = composer(reducer, data);
 
 	return store;
 }
