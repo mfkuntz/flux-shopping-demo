@@ -4,15 +4,9 @@ var cartActions = require('../actions/fluxCartActions');
 var product = React.createClass({
 
 	addToCart: function(event){
-		var sku = this.props.selected.sku;
-		var update = {
-			name: this.props.product.name,
-			type: this.props.selected.type, 
-			price: this.props.selected.price
-		};
 
-		cartActions.addToCart(sku, update);
-		cartActions.updateCartVisible(true);
+		this.props.dispatch(cartActions.addToCart(this.props.selected.sku));
+		this.props.dispatch(cartActions.updateCartVisible(true));
 	},
 
 	selectVariant:function(event){

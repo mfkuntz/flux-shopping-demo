@@ -5,6 +5,7 @@
   "main": "js/app.js",
   "dependencies": {
     "immutable": "^3.7.4",
+    "lodash": "^3.10.1",
     "react": "^0.13.3",
     "react-redux": "^0.2.2",
     "react-router": "^1.0.0-beta3",

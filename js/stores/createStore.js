@@ -1,18 +1,11 @@
 import { compose, createStore } from 'redux'
-var Immutable = require('immutable');
 import cartReducer from './CartStore'
 import productReducer from './ProductStore'
 
 import { devTools, persistState } from 'redux-devtools';
 
 
-// let combineImmutableReducers = reducers => {
-//   var combined_reducers = combineReducers(reducers);
 
-//   return (state,action) => Immutable.Map(combined_reducers(
-//       Immutable.Map.isMap(state) ? state.toObject() : state,action
-//   ));
-// }
 
 function combineReducers(reducers){
 

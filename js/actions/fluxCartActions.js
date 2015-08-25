@@ -22,8 +22,7 @@ var actions = {
 	addToCart: function(sku, update) {
 		return {
 			type: constants.CART_ADD,
-			sku: sku,
-			update: update
+			payload: sku
 		};
 	},
 
