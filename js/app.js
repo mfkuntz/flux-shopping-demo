@@ -9,9 +9,6 @@ var cartApi = require('./utils/CartAPI');
 var FluxCartApp = require('./components/FluxCartApp.react');
 
 
-//load mock data into localStorage
-productData.init();
-
 var data = require('./utils/dataInit')(null);
 
 //setup store
