@@ -20,7 +20,7 @@ var productReducer = function(state = {}, action){
 			return state;
 			
 		case fluxCartConstants.SELECT_PRODUCT:
-			return setSelected(action.data, state);
+			return setSelected(action.payload, state);
 
 		default:
 			return state;

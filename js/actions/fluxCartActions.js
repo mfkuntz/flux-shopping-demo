@@ -14,7 +14,7 @@ var actions = {
 	selectProduct: function(index) {
 		return {
 			type: constants.SELECT_PRODUCT,
-			data: index
+			payload: index
 		};
 	},
 
