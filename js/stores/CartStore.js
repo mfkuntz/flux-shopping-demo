@@ -6,7 +6,6 @@ var Immutable = require('immutable');
 function addProductToCart(sku, state) {
   var cart = state.get('cart');
   var items = cart.items;
-  if (items.length === 0){items = Immutable.List([]);}
 
   var cartItem = items.find((item) => {
     return item.sku === sku;
@@ -30,7 +29,18 @@ function addProductToCart(sku, state) {
 
 // Remove item from cart
 function removeItem(sku, state) {
-  delete state.products[sku];
+  var cart = state.get('cart');
+  var items = cart.items;
+
+  var cartItem = items.find((item) => {
+    return item.sku === sku;
+  });
+
+  if (!cartItem) return cart;
+  var index = items.indexOf(cartItem);
+
+  cart.items = items.delete(index);
+  return cart;
 }
 
 
@@ -58,8 +68,9 @@ var cartReducer = function(state = {}, action) {
 
     // Respond to CART_REMOVE action
     case FluxCartConstants.CART_REMOVE:
-      removeItem(action.sku, state);
-      return state;
+      var cart = removeItem(action.payload, state);
+      var newCartState =  state.set('cart', cart);
+      return newCartState;
 
     default:
       return state;

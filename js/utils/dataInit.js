@@ -5,7 +5,7 @@ module.exports = function(products){
 		products: products,
 		cart:{
 			count: 0,
-			items: [],
+			items: new Immutable.List(),
 			total: 0,
 			visible: false,
 		},

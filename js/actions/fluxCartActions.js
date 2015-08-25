@@ -30,7 +30,7 @@ var actions = {
 	removeFromCart: function(sku) {
 		return {
 			type: constants.CART_REMOVE,
-			sku: sku
+			payload: sku
 		};
 	},
 

@@ -1,5 +1,4 @@
 var fluxCartConstants = require('../constants/FluxCartConstants');
-var _ = require('underscore');
 
 function loadProductData(data){
 	// _product = data[0];
