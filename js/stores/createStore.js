@@ -2,7 +2,7 @@ import { compose, createStore } from 'redux'
 import cartReducer from './CartStore'
 import productReducer from './ProductStore'
 
-import { devTools, persistState } from 'redux-devtools';
+// import { devTools, persistState } from 'redux-devtools';
 
 
 
@@ -30,13 +30,13 @@ function combineReducers(reducers){
 export default function(data){
 	var reducer = combineReducers([cartReducer, productReducer]);
 
-	const composer = compose(
-		devTools(),
-		persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/)),
-		createStore
-	);
+	// const composer = compose(
+	// 	devTools(),
+	// 	persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/)),
+	// 	createStore
+	// );
 
-	var store = composer(reducer, data);
+	var store = createStore(reducer, data);
 
 	return store;
 }

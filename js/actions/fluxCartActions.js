@@ -38,7 +38,7 @@ var actions = {
 	updateCartVisible: function(cartVisible) {
 		return {
 			type: constants.CART_VISIBLE,
-			cartVisible: cartVisible
+			payload: cartVisible
 		};
 	}
 

@@ -8,12 +8,11 @@ function addProductToCart(sku, state) {
   var items = cart.items;
   if (items.length === 0){items = Immutable.List([]);}
 
-  var cartIndex = items.indexOf((item) => {
+  var cartItem = items.find((item) => {
     return item.sku === sku;
   });
   
-
-  if (cartIndex === -1){
+  if (!cartItem){
     var product = state.get('currentProduct');
     var variant = _.find(product.variants, {'sku' : sku});
 
@@ -22,10 +21,10 @@ function addProductToCart(sku, state) {
     return cart;
   }
 
-  var inCart = items.get(cartIndex);
-  inCart.quantity++;
+  var index = items.indexOf(cartItem);
+  cartItem.quantity++;
 
-  cart.items = items.set(cartIndex, inCart);
+  cart.items = items.set(index, cartItem);
   return cart;
 }
 
@@ -34,7 +33,7 @@ function removeItem(sku, state) {
   delete state.products[sku];
 }
 
-// Register callback with AppDispatcher
+
 var cartReducer = function(state = {}, action) {
 
   console.log(action);
@@ -46,14 +45,16 @@ var cartReducer = function(state = {}, action) {
     case FluxCartConstants.CART_ADD:
       //action.sku, action.update
       var cart = addProductToCart(action.payload, state);
-      return state.set('cart', cart);
+      var newCartState = state.set('cart', cart);
+      return newCartState;
 
     // Respond to CART_VISIBLE action
     case FluxCartConstants.CART_VISIBLE:
-      return{
-        ...state,
-        cartVisible: action.cartVisible
-      }
+
+      var cart = state.get('cart');
+      cart.visible = action.payload;
+      var newCartState =  state.set('cart', cart);
+      return newCartState;
 
     // Respond to CART_REMOVE action
     case FluxCartConstants.CART_REMOVE:

@@ -4,7 +4,7 @@ var productData = require('./MockProductData');
 var cartApi = require('./utils/CartAPI');
 
 // React components for Redux DevTools
-import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
+// import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
 
 var FluxCartApp = require('./components/FluxCartApp.react');
 
@@ -25,9 +25,11 @@ React.render(
 		<Provider store={store}>
 			{() => <FluxCartApp />}
 		</Provider>
-	    <DebugPanel top right bottom>
-	      <DevTools store={store} monitor={LogMonitor} />
-	    </DebugPanel>
+
     </div>,
 	document.getElementById('flux-cart')
 );
+
+	    // <DebugPanel top left bottom>
+	    //   <DevTools store={store} monitor={LogMonitor} />
+	    // </DebugPanel>
