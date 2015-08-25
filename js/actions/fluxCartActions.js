@@ -7,7 +7,7 @@ var actions = {
 	recieveProduct: function(data){
 		return {
 			type: constants.RECEIVE_DATA,
-			data: data
+			payload: data
 		};
 	},
 	// Set currently selected product variation

@@ -14,6 +14,12 @@ var product = React.createClass({
 	},
 
 	render: function(){
+		if (!this.props.product) return (
+			<div className="flux-product">
+				<div className="flux-product-detail">
+					<h1 className="name">Loading!</h1>
+				</div>
+			</div>);
 
 		return (
 

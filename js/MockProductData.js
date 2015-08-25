@@ -1,8 +1,5 @@
 module.exports = {
-	init: function(){
-		localStorage.clear();
-
-		localStorage.setItem('product', JSON.stringify([
+	data: [
 		{	
 			id: '0011001',
 			name: 'Scotch.IO Scotch',
@@ -29,7 +26,11 @@ module.exports = {
 				}
 			]
 		}
-		]));
+	],
+	init: function(){
+		localStorage.clear();
+
+		localStorage.setItem('product', JSON.stringify(this.data));
 
 	}
 }

@@ -12,12 +12,13 @@ var FluxCartApp = require('./components/FluxCartApp.react');
 //load mock data into localStorage
 productData.init();
 
-//mock API Call
-var products = cartApi.getProductData();
-var data = require('./utils/dataInit')(products);
+var data = require('./utils/dataInit')(null);
 
 //setup store
 var store = require('./stores/createStore')(data);
+
+//async API Call
+cartApi.getProductData(store);
 
 //render
 React.render(
