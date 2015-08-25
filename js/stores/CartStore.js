@@ -13,17 +13,21 @@ function addProductToCart(sku, state) {
   
   if (!cartItem){
     var product = state.get('currentProduct');
-    var variant = _.find(product.variants, {'sku' : sku});
+    cartItem = _.find(product.variants, {'sku' : sku});
 
-    variant.quantity = 1;
-    cart.items = items.push(variant);
-    return cart;
+    cartItem.quantity = 1;
+    cart.items = items.push(cartItem);
+    
+  }else{
+    
+    var index = items.indexOf(cartItem);
+    cartItem.quantity++;
+
+    cart.items = items.set(index, cartItem);    
   }
 
-  var index = items.indexOf(cartItem);
-  cartItem.quantity++;
+  cart.total += cartItem.price;
 
-  cart.items = items.set(index, cartItem);
   return cart;
 }
 
@@ -40,6 +44,9 @@ function removeItem(sku, state) {
   var index = items.indexOf(cartItem);
 
   cart.items = items.delete(index);
+
+  cart.total -= cartItem.price;
+
   return cart;
 }
 
