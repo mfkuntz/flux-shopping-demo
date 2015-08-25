@@ -1,64 +1,37 @@
-var dispatcher =  require('../dispatcher/AppDispatcher');
-var EventEmitter = require('events').EventEmitter;
 var fluxCartConstants = require('../constants/FluxCartConstants');
-var _ = require('underscore');
+var Immutable = require('immutable');
 
-var _product = {}, _selected = null;
+function loadProductData(data, state){
+	var currentProduct = Immutable.List.isList(data) ? data.get(0) : data[0];
+	var currentVariant = currentProduct.variants[0];
+	return state.withMutations((state) => {
+		state.set('products', data).set('currentProduct', currentProduct).set('selectedVariant', currentVariant);
+	});
 
-function loadProductData(data){
-	_product = data[0];
-	_selected = data[0].variants[0];
 };
 
-function setSelected(index){
-	_selected = _product.variants[index];
+function setSelected(index, state){
+	var selected = state.get('currentProduct').variants[index];
+	var newState = state.set('selectedVariant', selected);
+	return newState;
 };
 
-var productStore = _.extend({}, EventEmitter.prototype,{
-	// Return Product data
-  getProduct: function() {
-    return _product;
-  },
+var productReducer = function(state = {}, action){
 
-  // Return selected Product
-  getSelected: function(){
-    return _selected;
-  },
-
-  // Emit Change event
-  emitChange: function() {
-    this.emit('change');
-  },
-
-  // Add change listener
-  addChangeListener: function(callback) {
-    this.on('change', callback);
-  },
-
-  // Remove change listener
-  removeChangeListener: function(callback) {
-    this.removeListener('change', callback);
-  }
-});
-
-dispatcher.register(function(payload){
-	var action = payload.action;
-	var text;
-
-	switch(action.actionType){
+	switch(action.type){
 		case fluxCartConstants.RECEIVE_DATA:
-			loadProductData(action.data);
-			break;
+			return loadProductData(action.payload, state);
+			
 		case fluxCartConstants.SELECT_PRODUCT:
-			setSelected(action.data);
-			break;
+			return setSelected(action.payload, state);
 
 		default:
-			return true;
+			return state;
 	}
-	//we did something!
-	productStore.emitChange();
-	return true;
-});
+	
+};
 
-module.exports = productStore;
+module.exports = {
+	reducer: productReducer,
+	actions: [fluxCartConstants.RECEIVE_DATA, fluxCartConstants.SELECT_PRODUCT] 
+};

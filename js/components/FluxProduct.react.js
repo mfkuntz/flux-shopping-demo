@@ -4,25 +4,22 @@ var cartActions = require('../actions/fluxCartActions');
 var product = React.createClass({
 
 	addToCart: function(event){
-		var sku = this.props.selected.sku;
-		var update = {
-			name: this.props.product.name,
-			type: this.props.selected.type, 
-			price: this.props.selected.price
-		};
 
-		cartActions.addToCart(sku, update);
-		cartActions.updateCartVisible(true);
+		this.props.dispatch(cartActions.addToCart(this.props.selected.sku));
+		this.props.dispatch(cartActions.updateCartVisible(true));
 	},
 
 	selectVariant:function(event){
-		cartActions.selectProduct(event.target.value);
+		this.props.dispatch(cartActions.selectProduct(event.target.value));
 	},
 
 	render: function(){
-		var stock = (this.props.selected.sku in this.props.cartitems)? 
-			this.props.selected.inventory - this.props.cartitems[this.props.selected.sku].quantity : 
-			this.props.selected.inventory;
+		if (!this.props.product) return (
+			<div className="flux-product">
+				<div className="flux-product-detail">
+					<h1 className="name">Loading!</h1>
+				</div>
+			</div>);
 
 		return (
 
@@ -41,8 +38,8 @@ var product = React.createClass({
 							})
 						}
 					</select>
-					<button type="button" onClick={this.addToCart} disabled={stock > 0 ? '' : 'disabled'}>
-						{stock > 0 ? 'Add To Cart' : 'Sold Out'}
+					<button type="button" onClick={this.addToCart} disabled={this.props.selected.inventory > 0 ? '' : 'disabled'}>
+						{this.props.selected.inventory > 0 ? 'Add To Cart' : 'Sold Out'}
 					</button>
 				</div>
 			</div>

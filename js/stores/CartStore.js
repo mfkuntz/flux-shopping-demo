@@ -1,104 +1,115 @@
-var AppDispatcher = require('../dispatcher/AppDispatcher');
-var EventEmitter = require('events').EventEmitter;
 var FluxCartConstants = require('../constants/FluxCartConstants');
-var _ = require('underscore');
-
-// Define initial data points
-var _products = {}, _cartVisible = false;
+var _ = require('lodash');
+var Immutable = require('immutable');
 
 // Add product to cart
-function add(sku, update) {
-  update.quantity = sku in _products ? _products[sku].quantity + 1 : 1;
-  _products[sku] = _.extend({}, _products[sku], update)
-}
+function addProductToCart(sku, state) {
+  var cart = state.get('cart');
+  var items = cart.items;
 
-// Set cart visibility
-function setCartVisible(cartVisible) {
-  _cartVisible = cartVisible;
+  var cartItem = items.find((item) => {
+    return item.sku === sku;
+  });
+  
+  if (!cartItem){
+    var product = state.get('currentProduct');
+    cartItem = _.find(product.variants, {'sku' : sku});
+
+    cartItem.quantity = 1;
+    cart.items = items.push(cartItem);
+    
+  }else{
+    
+    var index = items.indexOf(cartItem);
+
+    cartItem.quantity++;
+
+    cart.items = items.set(index, cartItem);    
+  }
+
+  cart.total += cartItem.price;
+
+  var variant = state.get('selectedVariant');
+  variant.inventory--;
+  
+
+  return state.withMutations(function(s){
+    s.set('cart', cart).set('selectedVariant', variant);
+  });
+
 }
 
 // Remove item from cart
-function removeItem(sku) {
-  delete _products[sku];
+function removeItem(sku, state) {
+  var cart = state.get('cart');
+  var items = cart.items;
+
+  var cartItem = items.find((item) => {
+    return item.sku === sku;
+  });
+
+  if (!cartItem) return cart;
+  var index = items.indexOf(cartItem);
+
+  cart.items = items.delete(index);
+
+  cart.total -= cartItem.price;
+
+  //lookup inventory, and restore it
+  var product = JSON.parse(localStorage.getItem('product'))[0];
+  var variant = _.find(product.variants, function(p){
+    return p.sku === sku;
+  });
+
+  //this is probably temporary. Because current product maintains a sepererate list of variants
+  //we need to update it's reference too.
+  //I'd like to make current variant an id and use current product as the source of truth
+  var currentProduct = state.get('currentProduct');
+  var currentVariantIndex = _.findIndex(currentProduct.variants, function(p){
+    return p.sku === sku;
+  });
+  currentProduct.variants.splice(currentVariantIndex, 1, variant);
+
+  return state.withMutations(function(s){
+    s.set('cart', cart).set('selectedVariant', variant).set('currentProduct', currentProduct);
+  });
+
+   
 }
 
-// Extend Cart Store with EventEmitter to add eventing capabilities
-var CartStore = _.extend({}, EventEmitter.prototype, {
 
-  // Return cart items
-  getCartItems: function() {
-    return _products;
-  },
+var cartReducer = function(state = {}, action) {
 
-  // Return # of items in cart
-  getCartCount: function() {
-    return Object.keys(_products).length;
-  },
+  console.log(action);
+  console.log(state);
 
-  // Return cart cost total
-  getCartTotal: function() {
-    var total = 0;
-    for(var product in _products){
-      if(_products.hasOwnProperty(product)){
-        total += _products[product].price * _products[product].quantity;
-      }
-    }
-    return total.toFixed(2);
-  },
-
-  // Return cart visibility state
-  getCartVisible: function() {
-    return _cartVisible;
-  },
-
-  // Emit Change event
-  emitChange: function() {
-    this.emit('change');
-  },
-
-  // Add change listener
-  addChangeListener: function(callback) {
-    this.on('change', callback);
-  },
-
-  // Remove change listener
-  removeChangeListener: function(callback) {
-    this.removeListener('change', callback);
-  }
-
-});
-
-// Register callback with AppDispatcher
-AppDispatcher.register(function(payload) {
-  var action = payload.action;
-  var text;
-
-  switch(action.actionType) {
+  switch(action.type) {
 
     // Respond to CART_ADD action
     case FluxCartConstants.CART_ADD:
-      add(action.sku, action.update);
-      break;
+      //action.sku, action.update
+      return addProductToCart(action.payload, state);
 
     // Respond to CART_VISIBLE action
     case FluxCartConstants.CART_VISIBLE:
-      setCartVisible(action.cartVisible);
-      break;
+
+      var cart = state.get('cart');
+      cart.visible = action.payload;
+      var newCartState =  state.set('cart', cart);
+      return newCartState;
 
     // Respond to CART_REMOVE action
     case FluxCartConstants.CART_REMOVE:
-      removeItem(action.sku);
-      break;
+      return removeItem(action.payload, state);
 
     default:
-      return true;
+      return state;
   }
 
-  // If action was responded to, emit change event
-  CartStore.emitChange();
 
-  return true;
+};
 
-});
-
-module.exports = CartStore;
+module.exports = {
+  reducer: cartReducer,
+  actions: [FluxCartConstants.CART_ADD, FluxCartConstants.CART_VISIBLE, FluxCartConstants.CART_REMOVE]
+}

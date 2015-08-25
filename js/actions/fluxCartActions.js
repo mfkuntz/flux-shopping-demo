@@ -1,46 +1,45 @@
-var dispatcher = require('../dispatcher/AppDispatcher');
+// var dispatcher = require('../dispatcher/AppDispatcher');
 var constants = require('../constants/FluxCartConstants');
 
 var actions = {
 
 	//initial product data
 	recieveProduct: function(data){
-		dispatcher.handleAction({
-			actionType: constants.RECEIVE_DATA,
-			data: data
-		});
+		return {
+			type: constants.RECEIVE_DATA,
+			payload: data
+		};
 	},
 	// Set currently selected product variation
 	selectProduct: function(index) {
-		dispatcher.handleAction({
-			actionType: constants.SELECT_PRODUCT,
-			data: index
-		});
+		return {
+			type: constants.SELECT_PRODUCT,
+			payload: index
+		};
 	},
 
 	// Add item to cart
 	addToCart: function(sku, update) {
-		dispatcher.handleAction({
-			actionType: constants.CART_ADD,
-			sku: sku,
-			update: update
-		});
+		return {
+			type: constants.CART_ADD,
+			payload: sku
+		};
 	},
 
 	// Remove item from cart
 	removeFromCart: function(sku) {
-		dispatcher.handleAction({
-			actionType: constants.CART_REMOVE,
-			sku: sku
-		})
+		return {
+			type: constants.CART_REMOVE,
+			payload: sku
+		};
 	},
 
 	// Update cart visibility status
 	updateCartVisible: function(cartVisible) {
-		dispatcher.handleAction({
-			actionType: constants.CART_VISIBLE,
-			cartVisible: cartVisible
-		});
+		return {
+			type: constants.CART_VISIBLE,
+			payload: cartVisible
+		};
 	}
 
 };
