@@ -11,7 +11,6 @@ module.exports = {
 		
 		
 		var factory = React.createFactory(App(store));
-		console.log(factory);
 		var markup = React.renderToString(factory({store: store}));
 
 		

@@ -1,8 +1,5 @@
 window.React = require('react');
 
-var productData = require('./MockProductData');
-var cartApi = require('./utils/CartAPI');
-
 var data = require('./utils/dataInit')(null);
 
 //setup store
