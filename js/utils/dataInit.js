@@ -2,17 +2,21 @@ var Immutable = require('immutable');
 
 module.exports = function(products){
 	var currentProduct, selectedVariant = null;
-
+	
+	var list;
 	if (products === null){
 		// if ()
+	}else if (!Immutable.List.isList(products)){
+		list = Immutable.List(products);
 	}
-	else if (products){
-		currentProduct = products.get(0);
-		selectedVariant = products.get(0).variants[0];
+
+	if (list){
+		currentProduct = list.get(0);
+		selectedVariant = list.get(0).variants[0];
 	}
 
 	return Immutable.Map({
-		products: products,
+		products: list,
 		cart:{
 			count: 0,
 			items: new Immutable.List(),
