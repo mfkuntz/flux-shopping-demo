@@ -6,12 +6,12 @@ var data = require('./utils/dataInit')(null);
 var store = require('./stores/createStore')(data);
 
 
-var App = require('./app.flux')(store);
+var App = require('./app.flux');
 
 
 
 //render
 React.render(
-	<App />,
+	<App store={store}/>,
 	document.getElementById('flux-cart')
 );

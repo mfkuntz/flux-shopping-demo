@@ -19,6 +19,7 @@
 
 var express = require('express'),
   exphbs = require('express-handlebars'),
+  cache = require('route-cache'),
   http = require('http'),
   path = require('path'),
   routes = require('./routes');
@@ -30,7 +31,9 @@ var port = process.env.PORT || 8080;
 app.engine('handlebars', exphbs({ defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
-app.get('/', routes.index);
+
+
+app.get('/', cache.cacheSeconds(20), routes.index);
 
 app.use("/", express.static(path.join(__dirname, 'static')));
 

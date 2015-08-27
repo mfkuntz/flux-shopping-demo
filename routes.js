@@ -8,12 +8,7 @@ module.exports = {
 		var state = require('./js/utils/dataInit')(productData);
 		var store = require('./js/stores/createStore')(state);
 
-		
-		
-		var factory = React.createFactory(App(store));
-		var markup = React.renderToString(factory({store: store}));
-
-		
+		var markup = React.renderToString(<App store={store} />);
 
 		res.render('home', {
 			markup: markup,

@@ -14,7 +14,8 @@
     "react-router": "^1.0.0-beta3",
     "redux": "^1.0.1",
     "redux-immutable": "^1.2.3",
-    "redux-thunk": "^0.1.0"
+    "redux-thunk": "^0.1.0",
+    "route-cache": "^0.1.2"
   },
   "devDependencies": {
     "babel": "5.3.1",
