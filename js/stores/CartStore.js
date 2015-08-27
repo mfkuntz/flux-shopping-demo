@@ -48,7 +48,7 @@ function removeItem(sku, state) {
     return item.sku === sku;
   });
 
-  if (!cartItem) return cart;
+  if (!cartItem) return state;
   var index = items.indexOf(cartItem);
 
   cart.items = items.delete(index);

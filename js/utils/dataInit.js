@@ -6,9 +6,11 @@ module.exports = function(products){
 	var list;
 	if (products === null){
 		products = document.getElementById('initial-state').innerHTML;
+		
 		if (products){
+			localStorage.clear();
+			localStorage.setItem('product', products);
 			products = JSON.parse(products);
-			
 		}
 
 	}
