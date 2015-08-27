@@ -5,8 +5,14 @@ module.exports = function(products){
 	
 	var list;
 	if (products === null){
-		// if ()
-	}else if (!Immutable.List.isList(products)){
+		products = document.getElementById('initial-state').innerHTML;
+		if (products){
+			products = JSON.parse(products);
+			
+		}
+
+	}
+	if (!Immutable.List.isList(products)){
 		list = Immutable.List(products);
 	}
 

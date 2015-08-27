@@ -20,6 +20,7 @@
 var express = require('express'),
   exphbs = require('express-handlebars'),
   http = require('http'),
+  path = require('path'),
   routes = require('./routes');
 
 var app = express();
@@ -30,6 +31,8 @@ app.engine('handlebars', exphbs({ defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
 app.get('/', routes.index);
+
+app.use("/", express.static(path.join(__dirname, 'static')));
 
 var server = http.createServer(app).listen(port, function() {
   console.log('Express server listening on port ' + port);

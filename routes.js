@@ -5,9 +5,14 @@ module.exports = {
 
 	index: function(req, res){
 		
+		var state = require('./js/utils/dataInit')(productData);
+		var store = require('./js/stores/createStore')(state);
 
 		
-		var markup = React.renderToString(App(productData));
+		
+		var factory = React.createFactory(App(store));
+		console.log(factory);
+		var markup = React.renderToString(factory({store: store}));
 
 		
 

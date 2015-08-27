@@ -8,13 +8,13 @@ var data = require('./utils/dataInit')(null);
 //setup store
 var store = require('./stores/createStore')(data);
 
-//async API Call
-cartApi.getProductData(store);
+
+var App = require('./app.flux')(store);
 
 
-var App = require('./app.flux');
+
 //render
 React.render(
-	<App store={store} />,
+	<App />,
 	document.getElementById('flux-cart')
 );
