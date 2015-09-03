@@ -11,7 +11,8 @@
     "react": "^0.13.3",
     "react-redux": "^0.2.2",
     "redux": "^1.0.1",
-    "route-cache": "^0.1.2"
+    "route-cache": "^0.1.2",
+    "source-map-support": "^0.3.2"
   },
   "devDependencies": {
     "babel": "5.3.1",
@@ -30,11 +31,13 @@
     "nodemon": "^1.4.1",
     "react-hot-loader": "^1.2.7",
     "redux-devtools": "^1.1.1",
-    "source-map-support": "^0.3.2",
-    "webpack": "^1.9.11"
+    "webpack": "^1.9.11",
+    "yargs": "^3.23.0"
   },
   "scripts": {
-    "start": "gulp run"
+    "watch": "gulp run",
+    "build": "gulp build --prod",
+    "start" : "node ./build/backend.js"
   },
   "author": "Matthew Kuntz",
   "eslintConfig": {

@@ -16,10 +16,14 @@ var deepmerge = DeepMerge(function(target, source, key) {
 // generic
 
 var defaultConfig = require('./webpack.config');
+var argv = require('yargs').argv;
 
-if(process.env.NODE_ENV !== 'production') {
+if(argv.prod === true) {
+  console.log("Prod!!");
+  
+}else{
   defaultConfig.devtool = 'eval';
-  defaultConfig.debug = true;
+  defaultConfig.debug = true;  
 }
 
 function config(overrides) {
@@ -75,6 +79,24 @@ function onBuild(done) {
     }
   }
 }
+
+gulp.task('build', function(){
+  webpack(frontendConfig)
+  .run(function(err, status){
+    if (err){
+      console.log(err);
+    }
+    // console.log(status);
+  });
+
+  webpack(backendConfig)
+  .run(function(err, status){
+    if (err){
+      console.log(err);
+    }
+    // console.log(status);
+  });
+})
 
 gulp.task('frontend-watch', function() {
 	// console.log(frontendConfig);
