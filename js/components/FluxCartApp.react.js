@@ -1,7 +1,8 @@
 var React = require('react');
 import { connect } from 'react-redux'
 
-var FluxProduct = require('./FluxProduct.react');
+var {RouteHandler} = require('react-router');
+
 var FluxCart = require('./FluxCart.react');
 
 
@@ -27,8 +28,8 @@ class fluxCartApp extends React.Component{
 
   		return (
   			<div className="flux-cart-app">
-  				<FluxCart products={cartItems} count={count} total={cartTotal} visible={cartVisible} dispatch={dispatch} />
-  				<FluxProduct product={product} selected={selectedVariant} dispatch={dispatch} />
+  				<FluxCart products={cartItems} count={count} total={cartTotal} visible={cartVisible} dispatch={dispatch} />  				
+  				<RouteHandler/>
 			</div>
 
 		);
@@ -37,3 +38,5 @@ class fluxCartApp extends React.Component{
 };
 
 module.exports = connect(mapStateToProps)(fluxCartApp);
+
+//<FluxProduct product={product} selected={selectedVariant} dispatch={dispatch} />

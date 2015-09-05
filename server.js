@@ -33,9 +33,11 @@ app.set('view engine', 'handlebars');
 
 
 
-app.get('/', cache.cacheSeconds(20), routes.index);
+// app.get('/', cache.cacheSeconds(20), routes.index);
+app.use("/assets", express.static(path.join(__dirname, 'static')));
+app.use(routes.react);
 
-app.use("/", express.static(path.join(__dirname, 'static')));
+
 
 var server = http.createServer(app).listen(port, function() {
   console.log('Express server listening on port ' + port);

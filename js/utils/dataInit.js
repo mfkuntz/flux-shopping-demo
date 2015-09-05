@@ -4,16 +4,7 @@ module.exports = function(products){
 	var currentProduct, selectedVariant = null;
 	
 	var list;
-	if (products === null){
-		products = document.getElementById('initial-state').innerHTML;
-		
-		if (products){
-			localStorage.clear();
-			localStorage.setItem('product', products);
-			products = JSON.parse(products);
-		}
 
-	}
 	if (!Immutable.List.isList(products)){
 		list = Immutable.List(products);
 	}
