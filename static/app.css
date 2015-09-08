@@ -41,6 +41,26 @@ section#flux-cart
     background: white;
 }
 
+.product-list-item
+{
+    width: 100%;
+    max-width: 600px;
+    margin: 5px auto;
+    padding: 5px;
+
+    border: 3px solid #2c3e50;
+    background: white;
+    list-style-type: none;
+}
+.product-list-item a {
+    text-decoration: none;
+    color:inherit;
+}
+.product-list-item:hover{
+    cursor: pointer;
+}
+
+
 .flux-product img
 {
     width: 50%;
