@@ -19,8 +19,6 @@ module.exports = {
 		});
 	},
 	react: function(req,res){
-		var state = require('./js/utils/dataInit')(productData);
-
 
 		Router.run(routes, req.url, function(Handler){
 

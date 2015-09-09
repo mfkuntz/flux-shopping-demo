@@ -1,69 +1,12 @@
 var gulp = require('gulp');
 var nodemon = require('nodemon');
 var webpack = require('webpack');
-var path = require('path');
-var fs = require('fs');
+var rename = require("gulp-rename");
+var concat = require('gulp-concat');
 
-var DeepMerge = require('deep-merge');
+var webpackConfig = require('./webpackConfig');
 
-var deepmerge = DeepMerge(function(target, source, key) {
-  if(target instanceof Array) {
-    return [].concat(target, source);
-  }
-  return source;
-});
 
-// generic
-
-var defaultConfig = require('./webpack.config');
-var argv = require('yargs').argv;
-
-if(argv.prod === true) {
-  console.log("Prod!!");
-  
-}else{
-  defaultConfig.devtool = 'eval';
-  defaultConfig.debug = true;  
-}
-
-function config(overrides) {
-  return deepmerge(defaultConfig, overrides || {});
-}
-
-var nodeModules = {};
-fs.readdirSync('node_modules')
-  .filter(function(x) {
-    return ['.bin'].indexOf(x) === -1;
-  })
-  .forEach(function(mod) {
-    nodeModules[mod] = 'commonjs ' + mod;
-});
-
-var frontendConfig = config({
-  entry: path.join(__dirname, 'js/app.js'),
-  output: {
-    path: path.join(__dirname, 'static'),
-    filename: 'bundle.js'
-  }
-});
-var backendConfig = config({
-  entry: path.join(__dirname, 'server.js'),
-  target: 'node',
-  output: {
-    path: path.join(__dirname, 'build'),
-    filename: 'backend.js'
-  },
-  node: {
-    __dirname: true,
-    __filename: true
-  },
-  externals: nodeModules,
-  plugins: [
-    new webpack.IgnorePlugin(/\.(css|less)$/),
-    new webpack.BannerPlugin('require("source-map-support").install();',
-                             { raw: true, entryOnly: false })
-  ]
-});
 
 function onBuild(done) {
   return function(err, stats) {
@@ -80,8 +23,25 @@ function onBuild(done) {
   }
 }
 
-gulp.task('build', function(){
-  webpack(frontendConfig)
+
+gulp.task('css', function(){
+
+  var sass = require('gulp-sass');
+
+  gulp.src('./css/**/*.scss', {base: '.'})
+    .pipe(sass().on('error', sass.logError))
+    .pipe(rename(function(path){
+        path.dirname = ""
+    }))
+    .pipe(concat('master.css'))
+    .pipe(gulp.dest('./static/css'));
+});
+
+
+
+
+gulp.task('build', ['css'], function(){
+  webpack(webpackConfig.frontend)
   .run(function(err, status){
     if (err){
       console.log(err);
@@ -89,7 +49,7 @@ gulp.task('build', function(){
     // console.log(status);
   });
 
-  webpack(backendConfig)
+  webpack(webpackConfig.backend)
   .run(function(err, status){
     if (err){
       console.log(err);
@@ -100,7 +60,7 @@ gulp.task('build', function(){
 
 gulp.task('frontend-watch', function() {
 	// console.log(frontendConfig);
-  	webpack(frontendConfig).watch(100, function(err, stats) {
+  	webpack(webpackConfig.frontend).watch(100, function(err, stats) {
 	    onBuild()(err, stats);
 	    nodemon.restart();
   	});
@@ -108,13 +68,15 @@ gulp.task('frontend-watch', function() {
 
 gulp.task('backend-watch', function() {
 	// console.log(backendConfig);
-	webpack(backendConfig).watch(100, function(err, stats) {
+	webpack(webpackConfig.backend).watch(100, function(err, stats) {
 	    onBuild()(err, stats);
 	    nodemon.restart();
   	});
 });
 
-gulp.task('run', ['backend-watch', 'frontend-watch'], function() {
+gulp.task('run', ['css', 'backend-watch', 'frontend-watch'], function() {
+  var path = require('path');
+  
   nodemon({
     execMap: {
       js: 'node'
