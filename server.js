@@ -33,7 +33,7 @@ app.set('view engine', 'handlebars');
 
 
 
-// app.get('/', cache.cacheSeconds(20), routes.index);
+// app.get('/', routes.index);
 app.use("/assets", express.static(path.join(__dirname, 'static')));
 app.use(routes.react);
 
