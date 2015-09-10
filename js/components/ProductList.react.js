@@ -24,10 +24,10 @@ var list = React.createClass({
 		return (
 			<ul>
 				{
-					products.map(function(product){
+					products.map(function(product, index){
 
 						return (
-							<ProductListItem product={product}/>
+							<ProductListItem product={product} key={index} />
 						);
 
 					})

@@ -41,7 +41,8 @@
   "scripts": {
     "watch": "gulp run",
     "build": "gulp build --prod",
-    "start": "node ./build/backend.js"
+    "start": "node ./build/backend.js",
+    "debug": "gulp build && node-debug ./build/backend.js"
   },
   "author": "Matthew Kuntz",
   "eslintConfig": {

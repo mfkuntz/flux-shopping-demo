@@ -33,8 +33,10 @@ app.set('view engine', 'handlebars');
 
 
 
-// app.get('/', routes.index);
+
 app.use("/assets", express.static(path.join(__dirname, 'static')));
+app.use("/favicon.ico", routes.favicon);
+// app.get('*', routes.index);
 app.use(routes.react);
 
 

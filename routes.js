@@ -7,6 +7,10 @@ import { Provider } from 'react-redux';
 
 module.exports = {
 
+	favicon: function(req, res){
+
+	},
+
 	index: function(req, res){
 		
 		var state = require('./js/utils/dataInit')(productData);
